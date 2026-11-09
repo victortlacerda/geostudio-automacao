@@ -10,6 +10,8 @@ venv/
 *_inspecao.json
 *_mapa_objetos.csv
 *_mapa_objetos_log.txt
+*_tabelas.txt
+*_tabelas.csv
 ferramentas/procurar_instalacao.txt
 ferramentas/diagnostico_gsi.txt
 ferramentas/diagnostico_gsi.json

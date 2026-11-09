@@ -8,11 +8,13 @@ SIGMA/W. Nenhuma fase avança sem o critério de saída conferido no GeoStudio r
 - [x] `diagnostico_gsi`: descreve funções, pedidos, campos e enumerações da API.
 - [x] `inspecionar_gsz`: análises, materiais e colunas de cada CSV de resultado.
 - [x] `mapa_objetos` [não testado]: caminhos de objetos com valor e unidade pela API.
-- [ ] Rodar os quatro na máquina do usuário e registrar em `docs/api_gsi.md` e `docs/formato_gsz.md`.
-- [ ] Copiar os exemplos da instalação para `docs/referencia_api/`.
+- [x] Documentação oficial da API 2026.1 resumida em `docs/api_gsi.md`; `comum/api.py` com os nomes reais.
+- [x] `tabelas_resultados` [não testado]: tabelas, parâmetros e amostra de valores por análise.
+- [ ] Rodar as ferramentas na máquina do usuário (SLOPE/W primeiro) e registrar o que cada tabela traz.
+- [ ] Ver os scripts prontos em aka.bentley.com/GeoStudio.url.ScriptingAPIDocs/1.
 - [ ] Amostras com uma única mudança em `docs/amostras_geostudio/` (lista no README da pasta).
-- [ ] Confirmar se a API exige a interface aberta ou só o programa instalado.
-- [ ] Testar a gravação de valores adimensionais (bug das versões 2025).
+- [x] A API usa um serviço em segundo plano; não exige a interface aberta (documentação oficial).
+- [x] Adimensionais: gravar sem unidade (documentação 2026.1).
 
 **Critério de saída:** a API lê e grava um parâmetro de cada módulo, conferido lendo de volta.
 

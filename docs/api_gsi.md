@@ -1,29 +1,83 @@
 # API Python do GeoStudio (`gsi`)
 
-Registro do que se sabe da API e de onde veio. Só entra como **confirmado** o que foi visto no
-`diagnostico_gsi.txt`, num exemplo da instalação ou numa rodada real na 2026.1.
+Resumo da documentação oficial da 2026.1, que fica na pasta API da instalação
+(menu Iniciar → "GeoStudio 2026.1.0 API Folder") e em
+<https://aka.bentley.com/GeoStudio.url.ScriptingAPIDocs/1>. Os documentos da Bentley não são
+copiados para cá: este arquivo registra só os nomes usados no projeto e o que já foi conferido.
 
-## Confirmado (fontes públicas)
+## Instalação
 
-| Fato | Fonte |
+- Python **>= 3.12.1 e < 3.13**.
+- `pip install -r "C:\Program Files\Seequent\GeoStudio 2026.1\API\requirements.txt"`
+  (instala `gsi-1.0-py3-none-any.whl` da mesma pasta).
+- O GeoStudio precisa estar **licenciado**. A API conversa por gRPC com um serviço do GeoStudio em
+  segundo plano; não é preciso abrir a interface.
+- Com várias versões instaladas: `gsi.set_target_version("26.1")` **antes** do primeiro `OpenProject`.
+
+## Objetos (Get / Set / Add / Delete)
+
+| Item | Detalhe |
 |---|---|
-| A API existe desde a 2025.1; é distribuída como wheel `gsi-<versão>` com o GeoStudio | [Seequent Community 3196](https://community.seequent.com/discussion/3196/geostudio-api-python), [2250](https://community.seequent.com/discussion/2250/the-programming-capabilities-of-geostudio) |
-| Usa `grpcio`; citado com Python 3.12 no Windows 11 | [3196](https://community.seequent.com/discussion/3196/geostudio-api-python) |
-| Leitura e gravação por `GetRequest` / `SetRequest`; valores no formato `{"Value": ..., "Units": ...}` | [3259](https://community.seequent.com/discussion/3259/geostudio-api-gsi-setrequest) |
-| Caminhos de objetos como `CurrentAnalysis.Objects.ReinforcementLines[1]...`, descobertos em Sketch → Text → Insert Field | [3196](https://community.seequent.com/discussion/3196/geostudio-api-python) |
-| 2025.2: consulta da malha em qualquer coordenada; solve mais rápido via script; remalha ao salvar ou resolver pela API | [Notas da 2025.2](https://files.seequent.com/PDFs/GeoStudio-2025.2-Release-Notes-A4-EN-201125-V1.pdf) |
-| Bug (2025): valor adimensional não aceita gravação com `Units` vazio | [3259](https://community.seequent.com/discussion/3259/geostudio-api-gsi-setrequest) |
+| Abrir / fechar | `gsi.OpenProject(r"...\modelo.gsz")` → `project.Close()` (sempre em `finally`) |
+| Caminhos | `Materials["Argila"]`, `Materials["Argila"].UnitWeight`, `CurrentAnalysis.GeometryItems.Regions[1].Material`, `CurrentAnalysis.Objects.PiezometricSurfaces["..."]` |
+| Índices | começam em **1** |
+| Descobrir caminhos | SketchText no GeoStudio; `ferramentas/mapa_objetos.py` |
+| Ler | `project.Get(gsi.GetRequest(analysis=, object=))` → `.data` (`google.protobuf.Value`): `.number_value`, `.string_value` ou `MessageToDict(.data.struct_value)` |
+| Gravar | `project.Set(gsi.SetRequest(analysis=, object=, data=gsi.Value(number_value=20.0)))`; também `string_value`, `bool_value` |
+| Unidades | `data.struct_value.update({"Value": 120.0, "Units": "lbf/ft³"})` converte para as unidades da análise; sem `Units` ou com `""` = já nas unidades da análise |
+| Adimensional | nunca levar unidade (dá erro) |
+| Vários campos | ler o objeto inteiro, `update` no struct e gravar o objeto |
+| Criar / apagar | `AddRequest(analysis, object, data)` / `DeleteRequest(analysis, object, force_delete)` |
 
-## A confirmar na 2026.1
+## Cálculo
 
-| Item | Usado em | Situação |
-|---|---|---|
-| `gsi.OpenProject(caminho)` | `comum/api.py` | [não testado] |
-| `projeto.Get(gsi.GetRequest(analysis=, object=))` | `comum/api.py` | [não testado] |
-| `projeto.Set(gsi.SetRequest(analysis=, object=, data=))` com `data` = `google.protobuf.Value` | `comum/api.py` | [não testado] |
-| `projeto.SolveAnalyses(gsi.SolveAnalysesRequest(analyses=[...]))` | `comum/api.py` | [não testado] |
-| Consulta de resultados (`QueryResults`?) e seus campos | módulo 02 | a descobrir |
-| A interface precisa estar aberta? | todos | a descobrir |
-| Bug dos adimensionais corrigido? | módulo 03 | a testar |
+- `project.SolveAnalyses(gsi.SolveAnalysesRequest(analyses=[...], solve_dependencies=True))`.
+- Resposta: `all_succeeded` e `completion_status[nome]` com `succeeded` e `error_message`.
+- `solve_dependencies` é `True` por padrão; `step` só vale para uma análise com dependências desligadas.
+- **O SolveAnalyses salva o projeto** antes de resolver (e remalha se a geometria mudou). Estudos
+  paramétricos devem trabalhar numa cópia do `.gsz`.
 
-Preencher com o `diagnostico_gsi.txt` da máquina do usuário.
+## Resultados
+
+| Chamada | Uso |
+|---|---|
+| `QueryResultsAvailability(analysis)` | `has_results` |
+| `LoadResults(analysis)` | obrigatório antes de consultar |
+| `QueryTableParamsInfo(analysis, table, instance?)` | parâmetros disponíveis na tabela: `dataparam`, `display`, `units`, `unit_category` |
+| `QueryResults(analysis, step, table, dataparams, instance?, run?, result_ids?)` | `results[int(dataparam)].values` |
+| `QueryResultsAtCoordinates(analysis, step, dataparams, points)` | valores em coordenadas quaisquer (`gsi.Point(x, y, z)`) |
+
+- `step=1` para análise permanente.
+- `instance` identifica a superfície de deslizamento (tabelas `Column`, `Intercolumn`...) ou o
+  gráfico (`ResultGraphs`).
+
+### Tabelas (`gsi.ResultType`)
+
+| Módulo | Tabelas |
+|---|---|
+| SLOPE/W | `Slip`, `CriticalSlip`, `Column`, `Intercolumn`, `LambdaFOS`, `Reinforcement`, `Probabilistic`, `Sample`, `Iteration` |
+| SEEP/W | `Nodes`, `Elements`, `Gauss`, `FlowPath`, `TimeStep`, `SavedTimeStep`, `History`, `ResultGraphs` |
+| SIGMA/W | `Nodes`, `Elements`, `Gauss`, `ElementNodes`, `BeamGauss`, `TimeStep`, `SavedTimeStep`, `History` |
+
+### Parâmetros mais úteis (`gsi.DataParamType`)
+
+| Uso | Parâmetros |
+|---|---|
+| Coordenadas | `eXCoord`, `eYCoord`, `eZCoord`, `eNodeNum`, `eElemNum` |
+| FS e superfície | `eRawSlipFOS`, `eSlipNum`, `eSlipCenterX/Y`, `eSlipRadius`, `eSlipVolume`, `eSlipWeight`, `eResistingMoment`, `eActivatingMoment` |
+| Lambda × FS | `eLambda`, `eFOSByForce`, `eFOSByMoment` |
+| Fatias | `eSliceNum`, `eColumnWeight`, `ePoreWaterForce`, `eBaseNormalForce`, `eBaseNormalStress`, `eShearMob`, `eShearStrength`, `eBaseCohesion`, `eBasePhi`, `eBaseLength`, `eBaseNormalizedAngle`, `eIntersliceNormalForce`, `eIntersliceShearForce` |
+| Reforços | `eReinforcementForce`, `eReinforcementShearForce` |
+| Probabilístico | `eSlipFOSMean`, `eSlipFOSStdDev`, `eSlipReliabilityIndex`, `eSlipProbOfFailure` |
+| Percolação | `eWaterPressure`, `eWaterPressureHead`, `eWaterTotalHead`, `eWaterGradient`, `eWaterFlux`, `eWaterCumulativeVolume` |
+| Tensão-deformação | `eXDisplacement`, `eYDisplacement`, `eXYDisplacement`, `eXEffectiveStress`, `eYEffectiveStress`, `eXYShearStress`, `eMaxShearStrain` |
+| Vigas (cortina) | `eAxialForce`, `eShearForce`, `eMoment`, `eRotation` |
+
+## Conferido no GeoStudio real
+
+| Item | Situação |
+|---|---|
+| `OpenProject`, `Get`, `Set`, `SolveAnalyses`, `LoadResults`, `QueryResults` | documentados; falta rodada real |
+| Quais parâmetros cada tabela traz num modelo real | rodar `ferramentas/tabelas_resultados.py` |
+| Geometria da superfície crítica (pontos) | a descobrir com `tabelas_resultados` |
+| FS por método (Bishop, Spencer, M-P) numa mesma análise | a descobrir |

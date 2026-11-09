@@ -1,5 +1,17 @@
 # Registro de mudanças
 
+## v0.2 (API conferida na documentação oficial 2026.1)
+- `comum/api.py`: nomes reais da API. Leitura por `GetResponse.data`; gravação com `gsi.Value`
+  (número, texto, booleano ou número com unidade), conferida lendo de volta; `resolver` confere
+  `all_succeeded` e mostra a mensagem de erro do solver; `tem_resultados`, `carregar_resultados`,
+  `parametros_tabela` (QueryTableParamsInfo), `consultar` (QueryResults) e `consultar_em_pontos`;
+  `versao=` chama `set_target_version`.
+- `tabelas_resultados` [não testado]: tabelas de resultado de cada análise com parâmetros, unidades
+  e os primeiros valores.
+- `mapa_objetos`: raízes `Materials`, `CurrentAnalysis`, `.Objects`, `.GeometryItems`; índices a partir de 1.
+- README: instalação pelo requirements.txt da pasta API (Python 3.12); aviso de que o solve salva o projeto.
+- `docs/api_gsi.md`: resumo da referência oficial (tabelas e parâmetros de SLOPE/W, SEEP/W e SIGMA/W).
+
 ## Ferramentas da Fase 0
 
 ### v0.1

@@ -2,18 +2,20 @@
 """Mapa de objetos de um projeto pela API do GeoStudio (somente leitura).  [não testado]
 
 Abre o projeto pela API, e para cada análise pede os objetos a partir de uma ou mais raízes
-(padrão: CurrentAnalysis.Objects e CurrentAnalysis). A resposta é achatada em linhas
-caminho · valor · unidade e gravada em <nome>_mapa_objetos.csv ao lado do .gsz.
+(padrão: Materials, CurrentAnalysis, CurrentAnalysis.Objects, CurrentAnalysis.GeometryItems).
+A resposta é achatada em linhas caminho · valor · unidade (índices a partir de 1, como na API)
+e gravada em <nome>_mapa_objetos.csv ao lado do .gsz. Cada caminho do CSV pode ser usado
+direto em Projeto.ler / Projeto.gravar.
 
 Não grava nada no modelo. As análises vêm do próprio .gsz (leitura direta do arquivo).
 Se uma raiz não puder ser lida inteira, o erro vai para o log e o script segue (regra do
 plaxis3d-automacao: não abortar na primeira falha). Nesse caso, passe caminhos mais
-específicos com --caminho, copiados de Sketch → Text → Insert Field no GeoStudio.
+específicos com --caminho (a ferramenta SketchText do GeoStudio mostra a árvore de objetos).
 
 Uso:
     python mapa_objetos.py talude.gsz
     python mapa_objetos.py talude.gsz --analise "Estabilidade"
-    python mapa_objetos.py talude.gsz --caminho 'CurrentAnalysis.Objects.Materials["Argila"]'
+    python mapa_objetos.py talude.gsz --caminho "Materials[\"Argila\"]"
 """
 from __future__ import annotations
 
@@ -26,7 +28,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from modulos.comum.api import Projeto, achatar  # noqa: E402
 from modulos.comum.gsz import ArquivoGSZ  # noqa: E402
 
-RAIZES_PADRAO = ["CurrentAnalysis.Objects", "CurrentAnalysis"]
+RAIZES_PADRAO = ["Materials", "CurrentAnalysis", "CurrentAnalysis.Objects", "CurrentAnalysis.GeometryItems"]
 
 
 def main(argv=None):
