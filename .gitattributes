@@ -1,0 +1,6 @@
+# Modelos do GeoStudio são ZIP: nunca converter fim de linha
+*.gsz binary
+*.ply binary
+*.bat  text eol=crlf
+*.py   text eol=lf
+*.md   text eol=lf

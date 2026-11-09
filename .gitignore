@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Saídas geradas pelos scripts (não versionar resultados de cada rodada)
+*_inspecao.txt
+*_inspecao.json
+*_mapa_objetos.csv
+*_mapa_objetos_log.txt
+ferramentas/procurar_instalacao.txt
+ferramentas/diagnostico_gsi.txt
+ferramentas/diagnostico_gsi.json
+saidas/
+
+# Backups do GeoStudio e do Office
+*.bak
+~$*
+
+# Material de estudo com direitos de terceiros (manter fora do repositório)
+*.pdf
+
+# Sistema
+.DS_Store
+Thumbs.db
