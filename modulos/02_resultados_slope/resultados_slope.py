@@ -24,9 +24,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from modulos.comum.gsz import ArquivoGSZ  # noqa: E402
-from modulos.comum.slope import CODIGOS, checagens, geometria, ler_resultados  # noqa: E402
+from modulos.comum.slope import CODIGOS, checagens, geometria, ler_resultados, tem_curva_lambda  # noqa: E402
 
-VERSAO = "slope-v0.1"
+VERSAO = "slope-v0.2"
 
 
 def perguntar_numero(texto, padrao):
@@ -277,7 +277,7 @@ def processar(caminho: Path, fs_alvo: float, pasta_saida: Path | None = None):
         if c and c.fatias:
             figura_fatias(c, f"{base}_fatias.png")
             figuras.append((f"{a.nome}: fatias da crítica", f"{base}_fatias.png"))
-        if c and c.lambda_fs:
+        if c and tem_curva_lambda(c):
             figura_lambda(c, f"{base}_lambda.png")
             figuras.append((f"{a.nome}: FS x λ", f"{base}_lambda.png"))
     if not resultados:

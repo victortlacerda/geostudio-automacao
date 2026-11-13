@@ -23,11 +23,14 @@ Segue o mesmo molde de [slide2-automacao](https://github.com/victortlacerda/slid
 | [`ferramentas/inspecionar_gsz`](ferramentas/inspecionar_gsz.py) | Lê um `.gsz`: análises, materiais, arquivos de resultado e suas colunas | **v0.1**, testado com `.gsz` sintético |
 | [`ferramentas/mapa_objetos`](ferramentas/mapa_objetos.py) | Pela API, lista caminhos de objetos com valor e unidade | **[não testado]** no GeoStudio real |
 | [`ferramentas/tabelas_resultados`](ferramentas/tabelas_resultados.py) | Pela API, lista as tabelas de resultado de cada análise, os parâmetros (nome, unidade) e os primeiros valores | **[não testado]** no GeoStudio real |
-| [`modulos/02_resultados_slope`](modulos/02_resultados_slope/README.md) | FS, superfície crítica, fatias e λ x FS lidos do `.gsz`; xlsx + figuras; checagens | **slope-v0.1**, validado (FS 1,786 igual ao da interface) |
-| `modulos/01_inventario`, `03` … `06` | Ver [`docs/roadmap.md`](docs/roadmap.md) | A fazer |
+| [`modulos/01_auditoria`](modulos/01_auditoria/README.md) | Auditoria do projeto em HTML: análises, materiais, geometria, busca, resultados, comparação de métodos (também entre arquivos) e checagens ERRO/ALERTA/INFO | **auditoria-v0.1**, testado com as amostras reais |
+| [`modulos/02_resultados_slope`](modulos/02_resultados_slope/README.md) | FS, superfície crítica, fatias e λ x FS lidos do `.gsz`; xlsx + figuras; checagens | **slope-v0.2**, validado (M-P, Spencer, Bishop, Janbu e Fellenius) |
+| `modulos/03` … `06` | Ver [`docs/roadmap.md`](docs/roadmap.md) | A fazer |
 
 > **Licença de estudante:** o SLOPE/W aceita no máximo 500 elementos de malha (o arquivo nem abre
-> acima disso) e as figuras exportadas pelo GeoStudio levam marca d'água. Use modelos pequenos para teste.
+> acima disso), no máximo **2 análises por arquivo** e só os métodos Morgenstern-Price, Spencer, Bishop,
+> Janbu e Fellenius. A API (`gsi`) não abre projetos com essa licença (Erro -5). Os módulos 01 e 02 só
+> leem o `.gsz` e funcionam normalmente.
 
 ## Instalação
 

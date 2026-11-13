@@ -1,5 +1,13 @@
 # Registro de mudanças
 
+## Módulo 01 · auditoria
+
+### auditoria-v0.1
+- Relatório HTML do projeto (um arquivo, figuras embutidas): resumo com parecer, análises, comparação de
+  métodos, geometria com materiais, materiais com checagens, busca de superfícies, resultado e achados.
+- Comparação de métodos entre vários `.gsz` (`comparacao_metodos.html`), para a licença de estudante.
+- `comum/modelo.py`: leitura do XML (regiões, materiais com cores, contextos, busca, água).
+
 ## Ferramentas
 
 ### ferramentas-v0.2
@@ -7,6 +15,11 @@
 - `comum/api.py`: mensagens de erro do GeoStudio em cp1252 passam a aparecer legíveis.
 
 ## Módulo 02 · resultados do SLOPE/W
+
+### slope-v0.2
+- Lê Bishop, Janbu e Fellenius (colunas de λ vazias viram `None`; antes a checagem quebrava).
+- Figura FS x λ só para métodos que varrem λ (M-P, Spencer).
+- `nome_metodo`: "Ordinary" do XML aparece como "Fellenius (Ordinário)".
 
 ### slope-v0.1
 - Lê do `.gsz` resolvido todas as superfícies, a crítica, fatias, entre fatias e λ x FS

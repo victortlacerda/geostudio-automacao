@@ -10,6 +10,7 @@ resolver** (`_resolvido` no nome) e anote abaixo o valor digitado.
 |---|---|
 | `s00_talude5m.gsz` | **resolvido**: talude 5 m 1V:1H, argila γ 18, c' 10, φ' 30, M-P, entrada e saída. FS = 1,786 (superfície 369). Também em `testes/dados/` |
 | `s00_base.gsz` | talude 10 m; não abre na licença de estudante (malha > 500 elementos) |
+| `s04a_spencer.gsz` … `s04d_fellenius.gsz` | `s00_talude5m` + 2ª análise com outro método (limite de 2 por arquivo). FS: Spencer 1,788 · Bishop 1,792 · Janbu 1,675 · Fellenius 1,691 (conferido na interface); M-P 1,786 em todos. Crítica nº 369 em todos. Em `testes/dados/` |
 
 | Arquivo | Mudança a partir do base | Valor |
 |---|---|---|

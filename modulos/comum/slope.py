@@ -18,7 +18,21 @@ from dataclasses import dataclass, field
 
 from .gsz import ArquivoGSZ, pasta_resultados
 
-CODIGO_INVALIDO = 900.0   # SlipFOS a partir deste valor é código de erro, não FS
+CODIGO_INVALIDO = 900.0
+
+# Nome do método no XML -> nome usual (confirmado na 2026.1, licença de estudante: o menu tem
+# Morgenstern-Price, Spencer, Bishop, Janbu e Fellenius; Fellenius é gravado como "Ordinary")
+METODOS = {"Ordinary": "Fellenius (Ordinário)", "Morgenstern-Price": "Morgenstern-Price"}
+RIGOROSOS = ("morgenstern", "spencer", "gle", "sarma")     # equilíbrio de forças e momentos
+
+
+def nome_metodo(metodo):
+    return METODOS.get(metodo, metodo or "")
+
+
+def tem_curva_lambda(sup):
+    """Só os métodos rigorosos varrem λ; nos simplificados a curva FS x λ não tem sentido."""
+    return len({d["LambdaX"] for d in sup.lambda_fs}) > 1   # SlipFOS a partir deste valor é código de erro, não FS
 
 # significado dos códigos mais comuns (manual do SLOPE/W); os demais aparecem como "código N"
 CODIGOS = {
@@ -178,6 +192,10 @@ def ler_resultados(arquivo: ArquivoGSZ, analise) -> ResultadoSlope:
         elif tipo == "intercolumn":
             s.entre_fatias = sorted(dados, key=lambda f: f["XZCoord"])
         else:
+            # Bishop e Janbu gravam só uma das colunas (a outra vem vazia); Fellenius grava o arquivo vazio
+            for d in dados:
+                for k in ("FOSByForce", "FOSByMoment"):
+                    d[k] = _num(d.get(k))
             s.lambda_fs = sorted(dados, key=lambda f: f["LambdaX"])
 
     import zipfile
@@ -211,8 +229,8 @@ def checagens(res: ResultadoSlope, fs_alvo=1.5, tolerancia=1e-6):
         if perto:
             avisos.append(("AVISO", f"A superfície crítica toca a borda da {nome} de entrada e saída "
                                     f"(x = {pt[0]:.2f}; faixa [{xs[0]:.2f}; {xs[1]:.2f}]): amplie a faixa."))
-    if c.lambda_fs:
-        ult = c.lambda_fs[-1]
+    ult = c.lambda_fs[-1] if c.lambda_fs else {}
+    if ult.get("FOSByForce") is not None and ult.get("FOSByMoment") is not None:
         dif = abs(ult["FOSByForce"] - ult["FOSByMoment"])
         if dif > 0.01:
             avisos.append(("AVISO", f"FS por força e por momento diferem {dif:.3f} na última iteração de lambda."))

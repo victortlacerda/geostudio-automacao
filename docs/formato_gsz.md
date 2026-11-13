@@ -42,10 +42,21 @@ copiado) e [Seequent Community 1769](https://community.seequent.com/discussion/1
 - O tamanho padrão da malha não fica gravado quando não foi alterado. Tag `MeshDefaultEdgeLength` na
   geometria (citada no PyGeoStudio) **não** teve efeito na 2026.1.
 
+## Métodos (confirmado com `s04a` a `s04d`)
+
+- `Method` no XML: `Morgenstern-Price`, `Spencer`, `Bishop`, `Janbu` e `Ordinary` (Fellenius no menu).
+- Todos gravam `slip_surface.csv` com as mesmas colunas; `SlipFOS` é o FS do método escolhido.
+- `lambdafos_<n>.csv`: M-P e Spencer varrem λ (várias linhas, `FOSByForce` e `FOSByMoment`); Bishop e
+  Janbu gravam duas linhas com λ = 0 e só a coluna `FOSByForce` preenchida (`FOSByMoment` vazio);
+  Fellenius grava só o cabeçalho. Fellenius não grava `mobilizedsheardirectionfos_<n>.csv`.
+- Renomear uma análise na interface apaga os resultados dela.
+
 ## Licença de estudante
 
 - Limite de 500 elementos na malha do SLOPE/W: o arquivo nem abre se passar. Modelos de teste pequenos
   (o talude de 5 m gera menos de 500 com a malha padrão).
+- No máximo 2 análises SLOPE/W por arquivo: "O número máximo de análises suportado em uma licença
+  Estudante do SLOPE/W é 2" (ao salvar).
 
 ## A confirmar com as amostras da 2026.1
 

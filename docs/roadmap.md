@@ -18,8 +18,11 @@ SIGMA/W. Nenhuma fase avança sem o critério de saída conferido no GeoStudio r
 
 **Critério de saída:** a API lê e grava um parâmetro de cada módulo, conferido lendo de volta.
 
-## Fase 1: inventário (módulo 01)
-- [ ] Análises (árvore pai/filha, tipo, método), materiais e parâmetros de uma pasta de modelos em xlsx.
+## Fase 1: inventário e auditoria (módulo 01) (em andamento)
+- [x] Auditoria em HTML (auditoria-v0.1): análises, materiais, geometria, busca, resultados e checagens.
+- [x] Comparação de métodos no arquivo e entre arquivos (contorna o limite de 2 análises da licença de estudante).
+- [ ] Inventário de uma pasta inteira em xlsx (uma linha por análise).
+- [ ] Interpretar linha piezométrica, cargas e reforços (hoje só contados) [não testado].
 
 **Critério:** bate com o que a interface mostra.
 
@@ -29,7 +32,8 @@ SIGMA/W. Nenhuma fase avança sem o critério de saída conferido no GeoStudio r
 - [x] Fatias (σ', poropressão, parcelas de resistência), entre fatias e λ x FS.
 - [x] Checagens: FS abaixo do alvo, crítica na borda da faixa de entrada e saída, muitas inválidas.
 - [x] xlsx com figuras + PNG por análise.
-- [ ] Validar com mais amostras: grid and radius, Bishop/Spencer, NA, sobrecarga, reforço.
+- [x] Métodos M-P, Spencer, Bishop, Janbu e Fellenius (s04a a s04d), slope-v0.2.
+- [ ] Validar com mais amostras: grid and radius, NA, sobrecarga, reforço.
 - [ ] Cores dos materiais na figura (associação região × material fica em `Contexts`).
 
 **Critério:** FS igual ao do GeoStudio (±0,001).
@@ -64,6 +68,8 @@ SIGMA/W. Nenhuma fase avança sem o critério de saída conferido no GeoStudio r
 
 ## Pendências da licença de estudante
 - Malha limitada a 500 elementos: modelos de teste pequenos.
+- No máximo 2 análises por arquivo (o GeoStudio recusa salvar com mais); métodos disponíveis:
+  Morgenstern-Price, Spencer, Bishop, Janbu e Fellenius.
 - `gsi` instala e importa (Python 3.12.10), mas `OpenProject` falha por **licença**: "É necessário ter
   uma licença SLOPE/W... Não é possível encontrar uma licença. (Erro -5)" (13/11/2026, com e sem acento
   no caminho). O modo Estudante é escolhido na Página Inicial da interface; o serviço da API não o usa.
