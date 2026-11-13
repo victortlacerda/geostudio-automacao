@@ -64,7 +64,9 @@ SIGMA/W. Nenhuma fase avança sem o critério de saída conferido no GeoStudio r
 
 ## Pendências da licença de estudante
 - Malha limitada a 500 elementos: modelos de teste pequenos.
-- A API (`gsi`) ainda não foi testada com essa licença: `rodar_teste_slope.bat` passos 3 e 4.
+- `gsi` instala e importa (Python 3.12.10). `OpenProject` falhou com `UnicodeDecodeError`: a mensagem
+  do GeoStudio vem em cp1252. Suspeitas: acento no caminho ("Integração") ou arquivo aberto na interface.
+  Diagnóstico: `ferramentas/teste_abrir_api.bat`.
 
 ## Decisões tomadas
 - GeoStudio 2026.1; módulos SLOPE/W, SEEP/W e SIGMA/W.

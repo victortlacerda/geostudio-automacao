@@ -175,3 +175,11 @@ def test_tabelas_resultados(gsi_falso, gsz_sintetico):
     csv = gsz_sintetico.with_name("talude_teste_tabelas.csv").read_text(encoding="utf-8-sig")
     assert "Estabilidade/Jusante;SLOPE/W;CriticalSlip;;eRawSlipFOS;Factor of Safety;;Undefined;1;1.437" in csv
     assert "Percolação;SEEP/W;Nodes;;eWaterPressure;Water Pressure;kPa;Pressure;3;50 | 30.5 | -2.1" in csv
+
+
+def test_erro_cp1252_do_geostudio_fica_legivel():
+    from modulos.comum.api import descrever_erro
+    try:
+        b"O arquivo est\xe1 aberto".decode("utf-8")
+    except UnicodeDecodeError as e:
+        assert descrever_erro(e) == "erro do GeoStudio: O arquivo está aberto"

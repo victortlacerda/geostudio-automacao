@@ -1,5 +1,11 @@
 # Registro de mudanças
 
+## Ferramentas
+
+### ferramentas-v0.2
+- `teste_abrir_api` [não testado]: testa se a API abre o `.gsz` no caminho original e numa cópia sem acento.
+- `comum/api.py`: mensagens de erro do GeoStudio em cp1252 passam a aparecer legíveis.
+
 ## Módulo 02 · resultados do SLOPE/W
 
 ### slope-v0.1

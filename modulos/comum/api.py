@@ -51,6 +51,10 @@ def tentar(descricao, *alternativas):
 def descrever_erro(e):
     """Mensagem curta de um erro, inclusive de gRPC (que traz o detalhe em .details())."""
     detalhe = None
+    if isinstance(e, UnicodeDecodeError) and isinstance(getattr(e, "object", None), (bytes, bytearray)):
+        # O GeoStudio (gsipy, nativo) devolve a mensagem de erro na codificação do Windows (cp1252),
+        # e o Python tenta ler como UTF-8. Recupera o texto original.
+        return f"erro do GeoStudio: {bytes(e.object).decode('cp1252', errors='replace').strip()}"
     if hasattr(e, "details") and callable(e.details):
         try:
             detalhe = e.details()
