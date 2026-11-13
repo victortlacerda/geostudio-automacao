@@ -27,3 +27,11 @@ saidas/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Ambiente Python local e logs dos .bat
+.venv/
+instalar_ambiente_log.txt
+teste_slope_log.txt
+
+# Saidas dos modulos
+*_resultados/

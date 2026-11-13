@@ -193,7 +193,7 @@ class ArquivoGSZ:
         return {
             "arquivo": self.caminho.name,
             "xml": self.xml_principal,
-            "versao": self.info.get("Version", ""),
+            "versao": self.info.get("AppVersion") or self.info.get("Version", ""),
             "secoes_xml": self.secoes,
             "analises": [
                 {"nivel": n, "id": a.id, "nome": a.nome, "tipo": a.tipo, "metodo": a.metodo,

@@ -23,12 +23,14 @@ SIGMA/W. Nenhuma fase avança sem o critério de saída conferido no GeoStudio r
 
 **Critério:** bate com o que a interface mostra.
 
-## Fase 2: resultados do SLOPE/W (módulo 02)
-- [ ] FS por análise e método.
-- [ ] Superfície crítica (coordenadas) e as N seguintes; desenho sobre a geometria.
-- [ ] Forças por fatia (peso, normal, cisalhante, poropressão) e gráficos ao longo da superfície.
-- [ ] Checagens como no Slide2: mínimo na borda da grelha, superfície no limite, FS abaixo do alvo.
-- [ ] Saída em xlsx com figuras + PNG por análise, no formato do módulo 04 do Slide2.
+## Fase 2: resultados do SLOPE/W (módulo 02) (em andamento)
+- [x] FS por análise e superfície crítica, lidos do `.gsz` (slope-v0.1, validado: FS 1,786).
+- [x] Superfície crítica e as N guardadas desenhadas sobre a geometria.
+- [x] Fatias (σ', poropressão, parcelas de resistência), entre fatias e λ x FS.
+- [x] Checagens: FS abaixo do alvo, crítica na borda da faixa de entrada e saída, muitas inválidas.
+- [x] xlsx com figuras + PNG por análise.
+- [ ] Validar com mais amostras: grid and radius, Bishop/Spencer, NA, sobrecarga, reforço.
+- [ ] Cores dos materiais na figura (associação região × material fica em `Contexts`).
 
 **Critério:** FS igual ao do GeoStudio (±0,001).
 
@@ -59,6 +61,10 @@ SIGMA/W. Nenhuma fase avança sem o critério de saída conferido no GeoStudio r
 - [ ] Mesmo caso no GeoStudio, Slide2 e PLAXIS 3D lado a lado (formato comum de colunas).
 
 **Critério:** memorial revisado num projeto real.
+
+## Pendências da licença de estudante
+- Malha limitada a 500 elementos: modelos de teste pequenos.
+- A API (`gsi`) ainda não foi testada com essa licença: `rodar_teste_slope.bat` passos 3 e 4.
 
 ## Decisões tomadas
 - GeoStudio 2026.1; módulos SLOPE/W, SEEP/W e SIGMA/W.

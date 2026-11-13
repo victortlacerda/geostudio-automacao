@@ -1,5 +1,16 @@
 # Registro de mudanças
 
+## Módulo 02 · resultados do SLOPE/W
+
+### slope-v0.1
+- Lê do `.gsz` resolvido todas as superfícies, a crítica, fatias, entre fatias e λ x FS
+  (`modulos/comum/slope.py`), sem GeoStudio e sem API.
+- Gera `resultados_slope.xlsx` e figuras (crítica sobre a geometria, fatias, λ x FS).
+- Checagens: FS alvo, crítica na borda da faixa de entrada e saída, superfícies inválidas, força x momento.
+- Validado com `s00_talude5m.gsz` (licença de estudante): FS 1,786 igual ao da interface.
+- `instalar_ambiente.bat` sem a atualização do pip (era cancelada no Windows); `rodar_teste_slope.bat`
+  roda testes, módulo 02 e as ferramentas da API na amostra resolvida.
+
 ## v0.2 (API conferida na documentação oficial 2026.1)
 - `comum/api.py`: nomes reais da API. Leitura por `GetResponse.data`; gravação com `gsi.Value`
   (número, texto, booleano ou número com unidade), conferida lendo de volta; `resolver` confere

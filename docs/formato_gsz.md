@@ -25,9 +25,31 @@ mesh_<id>.ply                 malha de cada geometria (PLY binário)
 Fontes: código do [PyGeoStudio](https://github.com/MoiseRousseau/PyGeoStudio) (consultado, não
 copiado) e [Seequent Community 1769](https://community.seequent.com/discussion/1769/how-to-induce-the-permeability-random-fields-into-geostudio-seep-w).
 
+## Confirmado com `s00_talude5m.gsz` (GeoStudio 2026.1, SLOPE/W)
+
+- XML do modelo com o nome do arquivo; `FileInfo` traz `FileVersion` (11.15) e `AppVersion` (26.1.0.1261).
+- Resultados em `Análise SLOPE&3W/001/` (passo `001` no SLOPE/W), além de `Mesh.ply` e uma cópia do XML.
+- `slip_surface.csv`: uma linha por superfície testada. Colunas `SlipNum, SlipFOS, SlipCenterX,
+  SlipCenterY, SlipRadiusX, SlipVolume, SlipWeight, SlipOrigSearchMethod, ResistingForceX,
+  ActivatingForceX, ResistingMomentX, ActivatingMomentX, MobilizedShearDirection, LambdaX, CustomParam1..9`.
+  `SlipFOS` ≥ 900 é código de erro (998 = volume/profundidade abaixo do mínimo).
+- Para cada uma das N críticas guardadas (*Armazenar superfícies críticas*): `column_<n>.csv` (fatias:
+  `X, Y, XLeft, XRight, YBackBotLeft/Right, ColumnWeight, PoreWaterPressure, NormalEffectiveStress,
+  CohesiveStrength, FrictionalStrength, ResistingForceX, ActivatingForceX...`), `intercolumn_<n>.csv`,
+  `lambdafos_<n>.csv` (`LambdaX, FOSByForce, FOSByMoment`) e `mobilizedsheardirectionfos_<n>.csv`.
+- Busca de superfícies em `StabilityItems/StabilityItem/Entry/SlipSurface`: `EntryExit` (faixas),
+  `Limit`, `DirectionOfSlip`, `NumberOfCriticalSlipsToKeep`.
+- O tamanho padrão da malha não fica gravado quando não foi alterado. Tag `MeshDefaultEdgeLength` na
+  geometria (citada no PyGeoStudio) **não** teve efeito na 2026.1.
+
+## Licença de estudante
+
+- Limite de 500 elementos na malha do SLOPE/W: o arquivo nem abre se passar. Modelos de teste pequenos
+  (o talude de 5 m gera menos de 500 com a malha padrão).
+
 ## A confirmar com as amostras da 2026.1
 
-- [ ] Nomes e colunas dos CSV do SLOPE/W (superfícies, FS por método, fatias).
+- [x] Nomes e colunas dos CSV do SLOPE/W (superfícies, fatias, λ x FS).
 - [ ] Colunas do `node.csv` do SEEP/W e do SIGMA/W; arquivos por elemento e de vigas.
 - [ ] Como as etapas do SIGMA/W e os passos do transiente aparecem nas pastas `NNN`.
 - [ ] Estrutura do `mesh_<id>.ply`.

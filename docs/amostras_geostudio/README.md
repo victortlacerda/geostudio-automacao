@@ -5,6 +5,12 @@ para que a diferença no arquivo mostre onde aquele dado fica. Salve cada uma **
 resolver** (`_resolvido` no nome) e anote abaixo o valor digitado.
 
 ## slope/
+
+| Arquivo | Situação |
+|---|---|
+| `s00_talude5m.gsz` | **resolvido**: talude 5 m 1V:1H, argila γ 18, c' 10, φ' 30, M-P, entrada e saída. FS = 1,786 (superfície 369). Também em `testes/dados/` |
+| `s00_base.gsz` | talude 10 m; não abre na licença de estudante (malha > 500 elementos) |
+
 | Arquivo | Mudança a partir do base | Valor |
 |---|---|---|
 | `s00_base.gsz` | talude simples, 1 material, Morgenstern-Price, grid and radius | |
