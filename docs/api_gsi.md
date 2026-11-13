@@ -81,3 +81,10 @@ copiados para cá: este arquivo registra só os nomes usados no projeto e o que 
 | Quais parâmetros cada tabela traz num modelo real | rodar `ferramentas/tabelas_resultados.py` |
 | Geometria da superfície crítica (pontos) | a descobrir com `tabelas_resultados` |
 | FS por método (Bishop, Spencer, M-P) numa mesma análise | a descobrir |
+
+## Licença (confirmado em 13/11/2026)
+
+Com só a licença de estudante, `OpenProject` falha dentro de `gsipy.ConnectionManager`:
+"Algumas análises neste arquivo ficarão indisponíveis devido a erros de licenciamento... É necessário ter
+uma licença SLOPE/W... (Erro -5)". A mensagem vem em cp1252 e aparece no Python como `UnicodeDecodeError`;
+`comum/api.py` recupera o texto. O acento no caminho **não** é o problema (cópia sem acento falha igual).

@@ -64,9 +64,11 @@ SIGMA/W. Nenhuma fase avança sem o critério de saída conferido no GeoStudio r
 
 ## Pendências da licença de estudante
 - Malha limitada a 500 elementos: modelos de teste pequenos.
-- `gsi` instala e importa (Python 3.12.10). `OpenProject` falhou com `UnicodeDecodeError`: a mensagem
-  do GeoStudio vem em cp1252. Suspeitas: acento no caminho ("Integração") ou arquivo aberto na interface.
-  Diagnóstico: `ferramentas/teste_abrir_api.bat`.
+- `gsi` instala e importa (Python 3.12.10), mas `OpenProject` falha por **licença**: "É necessário ter
+  uma licença SLOPE/W... Não é possível encontrar uma licença. (Erro -5)" (13/11/2026, com e sem acento
+  no caminho). O modo Estudante é escolhido na Página Inicial da interface; o serviço da API não o usa.
+  Até haver licença Full (ou um jeito de o serviço usar o modo Estudante), seguem só os módulos que leem
+  o `.gsz` (01, 02, 04, 05). Lote pela API (módulo 03) fica bloqueado.
 
 ## Decisões tomadas
 - GeoStudio 2026.1; módulos SLOPE/W, SEEP/W e SIGMA/W.
